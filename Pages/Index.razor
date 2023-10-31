@@ -1,0 +1,25 @@
+﻿//  Pages/Index.razor
+@page "/"
+@using SkiaSharp
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components
+
+<InputFile OnChange="@OnChange" multiple />
+
+@code {
+    private void OnChange(InputFileChangeEventArgs args)
+    {
+        foreach (var file in args.GetMultipleFiles())
+        {
+            try
+            {
+                var stream = file.OpenReadStream();
+                var image = SKBitmap.Decode(stream);
+            }
+            catch (Exception)
+            {
+                // Ignore Invalid files
+            }
+        }
+    }
+}
